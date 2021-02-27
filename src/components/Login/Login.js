@@ -1,16 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { Button,  Form } from 'semantic-ui-react'
+import classes from './Login.module.css';
 
 const Login = () => (
+  <div className={classes.Login}>
   <Form>
-    <Form.Field>
-      <label>First Name</label>
-      <input placeholder='First Name' />
-    </Form.Field>
-    <Form.Field>
-      <label>Last Name</label>
-      <input placeholder='Last Name' />
-    </Form.Field>
+    
     <Form.Field>
     <label>Email Address</label>
     <input type='email' placeholder='Email Address' />
@@ -19,15 +15,10 @@ const Login = () => (
   <label>Password</label>
   <input type='password' placeholder='Password' />
   </Form.Field>
-  <Form.Field>
-  <label>Confirm Password</label>
-  <input type='password'  placeholder='Confirm Password' />
-</Form.Field>
-    
-
-
-    <Button  primary type='submit'>Submit</Button>
+  <Button  primary type='submit'>Login</Button><br />
+  <p>Not Register Yet ? </p> <Link to="/signup"> Register</Link>
   </Form>
+  </div>
 )
 
 export default Login;

@@ -1,0 +1,8 @@
+.Login {
+    width: 700px;
+    margin: 20px auto;
+    padding:50px 20px 20px 20px;
+    border:1px solid #ccc;
+    box-shadow: 2px 2px #ccc;
+    box-sizing: border-box;
+}
