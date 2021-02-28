@@ -1,11 +1,12 @@
 import React , { Component } from 'react';
-import Input  from '../../../components/UI/Input.js'; 
+
 import FormHoc from '../../../hoc/Form';
+import { Redirect } from 'react-router-dom';
 import { checkValidity } from '../../../shared/utility';
 import { connect } from 'react-redux';
 import { Button,  Form } from 'semantic-ui-react';
-import * as  actionTypes from '../../../store/actions/actionTypes';
-import {  registerUser } from '../../../store/actions/index';
+import {  registerUser, setAuthRedirectPath } from '../../../store/actions/index';
+import Spinner  from '../../../components/UI/Spinner/Spinner'; 
 
 class Register extends Component {
 
@@ -86,7 +87,8 @@ class Register extends Component {
         },
         formIsValid: false
     }
-  
+
+    
         submitRegisterhandler = (event) => {
             event.preventDefault();
 
@@ -134,6 +136,15 @@ class Register extends Component {
     };
 
     render(){
+        // if(this.props.signupSuccess)
+        // {
+        //     console.log('sinupsuccess');
+        //     this.props.onSetAuthRedirectPath('/signin');
+          
+        // }else{
+        //     console.log('redirectDefault');
+        //     this.props.onSetAuthRedirectPath('/');
+        // }
         //console.log(process.env);
         const formElementsArray = [];
         for (let key in this.state.registerForm) {
@@ -163,17 +174,27 @@ class Register extends Component {
 
                     
                 ))
-            
+        );
 
+        let spinner = (this.props.error || this.props.loading) ? <Spinner /> : null;
+            
+                let authRedirectPath = null;
+                if(this.props.signupSuccess)
+                {
+                    authRedirectPath = <Redirect to={this.props.redirectPath} />
+                
+                }
                
           
-        );
+    
         return(
             <div>
+            {authRedirectPath}
                 <FormHoc submit={this.submitRegisterhandler}>
                         {form}
                         <Button  primary type='submit' disabled={!this.state.formIsValid}>Register</Button>
                         <Button primary onClick={this.backToLoginHandler}>Back</Button>
+                        {spinner}
                 </FormHoc>
             </div>
         )
@@ -181,10 +202,21 @@ class Register extends Component {
 
 }
 
+const mapStateToProps = state => {
+    return {
+        loading:state.auth.loading,
+        error:state.auth.error,
+        redirectPath:state.auth.authRedirectPath,
+        signupSuccess:state.auth.isSignUpSucess,
+        loginSuccess:state.auth.isLoginSuccess
+    };
+}
+
 const mapDispatchToProps = dispatch => {
         return {
-            onRegister : (userinfo) => dispatch(registerUser(userinfo))
+            onRegister : (userinfo) => dispatch(registerUser(userinfo)),
+            onSetAuthRedirectPath:(path) => dispatch(setAuthRedirectPath(path))
         }
 };
 
-export default connect(null,mapDispatchToProps)(Register);
+export default connect(mapStateToProps,mapDispatchToProps)(Register);

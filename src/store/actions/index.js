@@ -1,3 +1,4 @@
 export {
-    registerUser
+    registerUser,
+    setAuthRedirectPath
 } from './auth';
