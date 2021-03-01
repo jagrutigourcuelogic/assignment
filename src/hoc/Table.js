@@ -1,4 +1,4 @@
-import { Header, Table, Rating } from 'semantic-ui-react';
+import {  Table} from 'semantic-ui-react';
 
 
 const Tablehoc = (props) => (

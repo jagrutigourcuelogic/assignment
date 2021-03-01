@@ -1,27 +1,27 @@
 import React , { Component } from 'react';
 import Todo from '../../../components/TodoList/TodoList';
 import { connect  } from 'react-redux';
-import { todoList } from '../../../store/actions/index';
-import { Header, Table, Rating, Button } from 'semantic-ui-react';
-import Tablehoc from '../../../hoc/Table';
+import { todoList , DataOperation } from '../../../store/actions/index';
+import { Header, Table, Button } from 'semantic-ui-react';
+import Spinner from '../../../components/UI/Spinner/Spinner';
 
 
 class TodoList extends Component {
      
     componentDidMount(){
-        console.log(this.props); 
-        this.props.onInitTodoList();
+        console.log(this.props.userId); 
+        this.props.onInitTodoList(this.props.userId);
     }
 
-    todoDetailsHandler = (id) => {
-        console.log(id);
-        console.log(this.props.match.path);
-    this.props.history.push(this.props.match.path +'/'+ id);
+    todoDetailsHandler = (id,operation) => {
+    
+        this.props.onTodoOperation(operation);
+        this.props.history.push(this.props.match.path +'/'+ id);
     }
    
     render(){
           //  console.log(this.props.list);
-         
+            
       
             let todos = (!this.props.list) ? <p>No Todo List found</p> :null ;
             if(this.props.list && this.props.list.length > 0){
@@ -41,14 +41,14 @@ class TodoList extends Component {
                         </Table.Cell>
                         <Table.Cell>
                         
-                        {single.date.seconds}
+                        {single.date}
                         </Table.Cell>
                         <Table.Cell>
                         {single.status}
                         </Table.Cell>
                         <Table.Cell>
-                        <Button primary onClick={()=>this.todoDetailsHandler(single.id)}>Details</Button>
-                        <Button primary>Edit</Button>
+                        <Button primary onClick={()=>this.todoDetailsHandler(single.id,'view')}>Details</Button>
+                        <Button primary onClick={()=>this.todoDetailsHandler(single.id,'edit')}>Edit</Button>
                         </Table.Cell>
                     </Table.Row>
 
@@ -60,9 +60,10 @@ class TodoList extends Component {
             }
             
         return(
-         <Tablehoc>
-            {todos}
-         </Tablehoc>
+         <Todo>
+         {(this.props.loading) ? <Spinner /> : todos}
+            
+         </Todo>
         )
     }
 
@@ -71,13 +72,17 @@ class TodoList extends Component {
 const mapStateToProps = state => {
      return {
          error:state.todo.error,
-         list:state.todo.list
+         list:state.todo.list,
+         loading:state.todo.loading,
+         userId:state.auth.userId
      }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-         onInitTodoList : () => dispatch(todoList())
+         onInitTodoList : (userid) => dispatch(todoList(userid)),
+         onTodoOperation: (operation) => dispatch(DataOperation(operation))
+
     }
 }
 

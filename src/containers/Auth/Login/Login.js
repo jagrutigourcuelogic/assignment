@@ -90,7 +90,7 @@ class Login extends Component {
         let error = this.props.error ? <p style={{color:'red'}}>{this.props.error}</p> : null;
             
         let authRedirectPath = null;
-        if(this.props.isLoginSuccess)
+        if(this.props.userId)
         {
             authRedirectPath = <Redirect to={this.props.redirectPath} />
         
@@ -117,7 +117,8 @@ const mapStateToProps = state => {
         error:state.auth.error,
         loading:state.auth.error,
         isLoginSuccess:state.auth.isLoginSuccess,
-        redirectPath:state.auth.authRedirectPath
+        redirectPath:state.auth.authRedirectPath,
+        userId:state.auth.userId
 
     }
 }

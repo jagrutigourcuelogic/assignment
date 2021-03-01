@@ -31,34 +31,7 @@ export const registerUser = (userinfo) => {
          // TypeError: failed to fetch
       }
     }
-    //     firebaseApp.auth().createUserWithEmailAndPassword(email,password)
-    // .then((userCredential) => {
-    //   // Signed in 
-
-    //   var user = userCredential.user;
-     
-    //   db.collection("users").add({
-    //     uid:user.uid,
-    //    firstName,
-    //    lastName
-      
-    // })
-    // .then((docRef) => {
-    //     console.log("Document written with ID: ", docRef.id);
-    // })
-    // .catch((error) => {
-    //     console.error("Error adding document: ", error);
-    // });
-     
-    //   // ...
-    // })
-    // .catch((error) => {
-    //   var errorCode = error.code;
-    //   var errorMessage = error.message;
-    //   console.log(errorMessage);
-    //   // ..
-    // });
-    // }
+   
     
 };
 
@@ -102,10 +75,16 @@ export const userLoginFail = ( error ) => {
   };
 };
 
-export const userLoginSuccess = () => {
+export const userLoginSuccess = (token,userId) => {
+
+  localStorage.setItem('token',token);
+  localStorage.setItem('userId',userId);
   return {
       type: actionTypes.USER_LOGIN_SUCCESS,
-      path:'/todos'
+      path:'/todos',
+      idToken:token,
+      userId:userId
+
   };
 };
 
@@ -118,9 +97,7 @@ export const loginUser = (userinfo) => {
        let user = userObj.user;
        let userToken = await user.getIdToken();
        
-       localStorage.setItem('token',userToken);
-       localStorage.setItem('userId',user.uid);
-      dispatch(userLoginSuccess());
+      dispatch(userLoginSuccess(userToken,user.uid));
      
      
      } catch(err) {
@@ -133,3 +110,31 @@ export const loginUser = (userinfo) => {
   
    
 };
+
+export const logout =() => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
+
+  return{
+      type:actionTypes.LOGOUT,
+      path:'/signin'
+  }
+}
+
+export const authCheckState = () => {
+  return dispatch => {
+      const token = localStorage.getItem('token');
+      if(!token)
+      {
+          dispatch(logout());
+      }else{
+         
+              const userId = localStorage.getItem('userId');
+              dispatch(userLoginSuccess(token,userId));
+             
+         
+      }
+  }
+}
+
+
