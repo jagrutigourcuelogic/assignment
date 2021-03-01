@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore , applyMiddleware , compose ,combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import authReducer from './store/reducers/auth';
+import todoReducer from './store/reducers/todo';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -13,7 +14,8 @@ const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX
 
 const rootReducer = combineReducers({
    
-   auth:authReducer
+   auth:authReducer,
+   todo:todoReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(

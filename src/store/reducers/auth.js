@@ -21,6 +21,18 @@ const signupSuccess =( state , action ) => {
 const signupFail =( state , action ) => {
     return updateObject(state , {error:action.error,loading:false,isSignUpSucess:false});
 }
+const loginStart = (state, action) =>{
+    return updateObject(state , {error:null,loading:true});
+}
+
+const loginSuccess =( state , action ) => {
+    return updateObject(state , {error:null,loading:false,isLoginSuccess:true,authRedirectPath:action.path});
+}
+
+const loginFail =( state , action ) => {
+  
+    return updateObject(state , {error:action.error,loading:false,isLoginSuccess:false});
+}
 
  const setAuthRedirectPath = (state ,action) => {
     return updateObject(state , {authRedirectPath:action.path});
@@ -32,7 +44,10 @@ const Auth = (state = initialState , action) => {
         case actionTypes.USER_SIGNUP_SUCCESS: return signupSuccess(state,action);
         case actionTypes.USER_SIGNUP_FAIL: return signupFail(state,action);
         case actionTypes.SET_AUTH_REDIRECT_PATH : return setAuthRedirectPath(state,action);
-         
+        case actionTypes.USER_LOGIN_START: return loginStart(state,action);
+        case actionTypes.USER_LOGIN_SUCCESS: return loginSuccess(state,action);
+        case actionTypes.USER_LOGIN_FAIL: return loginFail(state,action);
+
         default: return state;
             
     }

@@ -1,4 +1,10 @@
 export {
     registerUser,
-    setAuthRedirectPath
+    setAuthRedirectPath,
+    loginUser
 } from './auth';
+
+export {
+    todoList
+}
+from './todo';

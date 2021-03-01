@@ -88,3 +88,48 @@ export const setAuthRedirectPath = (path) => {
       path:path
   }
 }
+
+export const userLoginStart = () =>{
+  return {
+      type : actionTypes.USER_LOGIN_START
+  };
+}
+
+export const userLoginFail = ( error ) => {
+  return {
+      type: actionTypes.USER_LOGIN_FAIL,
+      error: error
+  };
+};
+
+export const userLoginSuccess = () => {
+  return {
+      type: actionTypes.USER_LOGIN_SUCCESS,
+      path:'/todos'
+  };
+};
+
+export const loginUser = (userinfo) => {
+  const {email,password} = userinfo;
+   return async dispatch => {
+     dispatch(userLoginStart());
+     try {
+       let userObj = await  firebaseApp.auth().signInWithEmailAndPassword(email,password);
+       let user = userObj.user;
+       let userToken = await user.getIdToken();
+       
+       localStorage.setItem('token',userToken);
+       localStorage.setItem('userId',user.uid);
+      dispatch(userLoginSuccess());
+     
+     
+     } catch(err) {
+
+       console.log(err.message);
+       dispatch(userLoginFail(err.message));
+        // TypeError: failed to fetch
+     }
+   }
+  
+   
+};

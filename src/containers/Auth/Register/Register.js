@@ -175,8 +175,9 @@ class Register extends Component {
                     
                 ))
         );
+        console.log(form);
 
-        let spinner = (this.props.error || this.props.loading) ? <Spinner /> : null;
+        let spinner = ( this.props.loading) ? <Spinner /> : null;
             
                 let authRedirectPath = null;
                 if(this.props.signupSuccess)
