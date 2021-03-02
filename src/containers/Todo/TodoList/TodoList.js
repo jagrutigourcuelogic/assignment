@@ -47,7 +47,9 @@ class TodoList extends Component {
             }
            
       
-            let todos = (!this.props.list) ? <p>No Todo List found</p> :null ;
+            let todos = (this.props.list === '') ? <p style={{textAlign:'center',
+                                                            fontWeight:'600',
+                                                            fontSize:'23px'}}>No Todo List found</p> :null ;
             if(this.props.list && this.props.list.length > 0){
                
             

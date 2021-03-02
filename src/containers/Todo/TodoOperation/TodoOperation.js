@@ -5,7 +5,6 @@ import TodoCreateComp from '../../../components/TodoCreate/TodoCreate';
 import FormHoc from '../../../hoc/Form';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router';
-import { Button } from 'semantic-ui-react';
 
 
 

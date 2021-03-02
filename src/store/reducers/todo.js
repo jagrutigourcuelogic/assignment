@@ -48,7 +48,7 @@ const todoCreateStart = (state,action) => {
     return updateObject(state,{
         loading:true,
         isCreate:false,
-        isCreate:false,
+        error:null,
         operation_type:null,
         isDelete:false,
         isUpdate:false

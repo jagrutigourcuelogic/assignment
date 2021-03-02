@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Button,  Form } from 'semantic-ui-react'
-import classes from './Login.module.css';
+
 
 const Login = (props) => (
   <div >

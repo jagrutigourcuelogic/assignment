@@ -2,7 +2,6 @@ import React from 'react';
 import classes from './Layout.module.css';
 import Toolbar from '../components/Navigation/Toolbar/Toolbar';
 import { connect } from 'react-redux'; 
-import NavigationItems from '../components/Navigation/NavigationItems/NavigationItems';
 
 const Layout = (props) => {
 

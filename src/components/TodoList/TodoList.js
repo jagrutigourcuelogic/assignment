@@ -1,6 +1,6 @@
 import React from 'react'
-import { Header, Table, Rating, Button } from 'semantic-ui-react';
-import { Link , withRouter ,useRouteMatch} from 'react-router-dom';
+import { Table,  Button } from 'semantic-ui-react';
+import { Link , withRouter } from 'react-router-dom';
 import classes from './TodoList.module.css';
 
 const TableExamplePadded = (props) => {

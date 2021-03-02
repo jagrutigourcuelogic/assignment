@@ -23,7 +23,7 @@ export const registerUser = (userinfo) => {
         let userCredential = await  firebaseApp.auth().createUserWithEmailAndPassword(email,password);
         let user = userCredential.user;
        
-        let userSignup =  db.collection("users").add({
+        db.collection("users").add({
           uid:user.uid,
          firstName,
          lastName

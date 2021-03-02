@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { Button,  Form } from 'semantic-ui-react';
 
 
@@ -14,7 +13,7 @@ const TodoCreate = (props) => {
   ]
  const optele = options.map(option => (
     <option key={option.key} value={option.value} 
-    selected={(props.value && props.value.status.value == option.value) ? true : false}>
+    selected={(props.value && props.value.status.value === option.value) ? true : false}>
         {option.text} 
     </option>
  ));
