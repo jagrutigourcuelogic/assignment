@@ -15,7 +15,7 @@ const Login = (props) => (
   <label>Password</label>
   <input type='password' placeholder='Password'  onChange={(event)=>props.change(event,'password')}/>
   </Form.Field>
-  <Button  primary type='submit'>Login</Button><br />
+  <Button  primary type='submit' disabled={props.btnVisibility}>Login</Button><br />
   <p>Not Register Yet ? </p> <Link to="/signup"> Register</Link>
   
   </div>

@@ -167,7 +167,7 @@ export const UpdateTodo = (todoinfo) => {
   const { title,content,date,status,key } = todoinfo;
   return dispatch => {
     dispatch(todoUpdateStart());
-    console.log(todoinfo);
+    //console.log(todoinfo);
     db.collection("todo").doc(key).update({
       title,
       content,

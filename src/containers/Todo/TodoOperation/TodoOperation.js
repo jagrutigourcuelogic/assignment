@@ -1,10 +1,11 @@
 import React , { Component } from 'react';
 import { connect  } from 'react-redux';
-import { todoSingleRecord , UpdateTodo } from '../../../store/actions/index';
+import { todoSingleRecord , UpdateTodo  , DataOperation } from '../../../store/actions/index';
 import TodoCreateComp from '../../../components/TodoCreate/TodoCreate';
 import FormHoc from '../../../hoc/Form';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router';
+import { Button } from 'semantic-ui-react';
 
 
 
@@ -76,7 +77,7 @@ class TodoOperation extends Component {
     }
      
    componentDidMount(){
-       console.log(this.props.match.params.id);
+      
        
        this.props.onInitOperation(this.props.match.params.id);
        if(this.props.record !== null){
@@ -94,6 +95,11 @@ class TodoOperation extends Component {
 
    }
 
+   todoDetailsHandler = (operation) => {
+    
+    this.props.onTodoOperation(operation);
+    // this.props.history.push(this.props.match.path +'/'+ id);
+}
   
 
     submitLoginhandler = (event) => {
@@ -167,17 +173,24 @@ class TodoOperation extends Component {
                 {
                     redirect = <Redirect to={this.props.redirectpath} />
                 }
+                
+                let data = <p style={{color:'red'}}>Something went Wrong!</p>
+                if(this.props.record !== null){
+                    data = ( <TodoCreateComp  change={this.inputChangeHandler} 
+                        backbtn={this.backHandler} 
+                        readstatus={opt} 
+                        value={this.state.createForm}/>);
+                }
 
         return(
             
             <FormHoc submit={this.submitLoginhandler}>
+                {/*opt === true ?
+                <Button primary style={{float:'right'}} >Edit</Button>:null */}
             {opt}
             {redirect}
-            <TodoCreateComp  change={this.inputChangeHandler} 
-            backbtn={this.backHandler} 
-            readstatus={opt} 
-            value={this.state.createForm}/>
-                {spinner}
+            {data}
+            {spinner}
             
            </FormHoc>
 
@@ -204,7 +217,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
          onInitOperation : (id) => dispatch(todoSingleRecord(id)),
-         onTodoUpdate : (todoinfo) => dispatch(UpdateTodo(todoinfo))
+         onTodoUpdate : (todoinfo) => dispatch(UpdateTodo(todoinfo)),
+         onTodoOperation: (operation) => dispatch(DataOperation(operation))
     }
 }
 

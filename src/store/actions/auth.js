@@ -170,6 +170,12 @@ export const authCheckState = () => {
   }
 }
 
+export const initLogin = () => {
+  return {
+    type:actionTypes.LOGIN_INIT
+  }
+}
+
 
 
 

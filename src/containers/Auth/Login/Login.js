@@ -3,7 +3,8 @@ import LoginForm  from '../../../components/Login/Login';
 import FormHoc from '../../../hoc/Form';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { loginUser } from '../../../store/actions/index';
+import { checkValidity } from '../../../shared/utility';
+import { loginUser , initLogin } from '../../../store/actions/index';
 import Spinner  from '../../../components/UI/Spinner/Spinner'; 
 
 class Login extends Component {
@@ -39,6 +40,9 @@ class Login extends Component {
             }
         }
     }
+    componentDidMount(){
+        this.props.onInitLogin();
+    }
 
     submitLoginhandler = (event) => {
         
@@ -68,7 +72,7 @@ class Login extends Component {
         };
     
         updatedFormElement.value = event.target.value;
-       // updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
 
@@ -103,7 +107,8 @@ class Login extends Component {
             <FormHoc submit={this.submitLoginhandler}>
             {error}
             {authRedirectPath}
-            <LoginForm  change={this.inputChangeHandler}/>
+            <LoginForm  change={this.inputChangeHandler} 
+            btnVisibility={!this.state.formIsValid} />
             {spinner}
             
            </FormHoc>
@@ -125,7 +130,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>{
     return {
-        onLogin:(userinfo) => dispatch(loginUser(userinfo))
+        onLogin:(userinfo) => dispatch(loginUser(userinfo)),
+        onInitLogin:() => dispatch(initLogin())
     }
 }
 

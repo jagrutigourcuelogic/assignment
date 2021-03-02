@@ -22,6 +22,7 @@ const TodoCreate = (props) => {
 // console.log(props.value);
      
     return(<div>
+    
     <Form.Field>
     <label>Title</label>
     <input type='text' placeholder='Todo Title'  
@@ -55,7 +56,7 @@ disabled={props.readstatus} >
 </select>
 </Form.Field>
 
-{!props.readstatus  && <Button  primary type='submit'>Submit</Button> }
+{!props.readstatus  && <Button  primary type='submit' disabled={props.btnVisibility}>Submit</Button> }
 
 <Button primary onClick={props.backbtn}>Back</Button>
   </div>

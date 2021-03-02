@@ -3,6 +3,8 @@ export const USER_LOGIN_START         =  'USER_LOGIN_START';
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS';
 export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL';
 export const LOGIN = 'LOGIN';
+export const LOGIN_INIT = 'LOGIN_INIT';
+
 export const LOGOUT         =  'LOGOUT';
 export const LOGOUT_START         =  'LOGOUT_START';
 export const LOGOUT_FAIL         =  'LOGOUT_FAIL';

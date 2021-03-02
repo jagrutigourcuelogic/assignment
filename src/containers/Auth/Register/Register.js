@@ -77,7 +77,7 @@ class Register extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    minLength:8,
+                    minLength:8
                     
                 },
                 valid: false,
@@ -85,25 +85,38 @@ class Register extends Component {
             },
             
         },
-        formIsValid: false
+        formIsValid: false,
+        errors:[]
     }
 
     
         submitRegisterhandler = (event) => {
             event.preventDefault();
-
+           
         const formData = {};
         for (let formElementIdentifier in this.state.registerForm) {
             formData[formElementIdentifier] = this.state.registerForm[formElementIdentifier].value;
         }
+        
         const {firstName,lastName,email,password,confirmPassword} = formData;
-        const user ={
-            firstName,
-            lastName,
-            email,password,
-            confirmPassword
-        };
-        this.props.onRegister(user);
+        if(formData.password !== formData.confirmPassword){
+            const errMsg = 'Password and Confirm Password Should be same';
+            window.alert(errMsg);
+            
+            this.setState({formIsValid: false});
+         
+        }else{
+            const user ={
+                firstName,
+                lastName,
+                email,password,
+                confirmPassword
+            };
+            this.props.onRegister(user);
+        }
+        
+
+        
         
        
        
@@ -119,7 +132,7 @@ class Register extends Component {
         const updatedFormElement = { 
             ...updatedOrderForm[inputIdentifier]
         };
-    
+       
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
@@ -137,7 +150,7 @@ class Register extends Component {
     };
 
     render(){
-        console.log(this.props.error);
+        
         const formElementsArray = [];
         for (let key in this.state.registerForm) {
             
@@ -147,7 +160,8 @@ class Register extends Component {
                 
             });
         }
-    
+        
+        
 
         let form = (formElementsArray.map(formElement => (
                   
@@ -174,7 +188,7 @@ class Register extends Component {
             spinner = null;
         }
         let error = this.props.error ? <p style={{color:'red'}}>{this.props.error}</p> : null;
-            
+       
                 let authRedirectPath = null;
                 if(this.props.signupSuccess && !error)
                 {

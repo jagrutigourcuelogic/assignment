@@ -81,6 +81,11 @@ const logoutFail = (state ,action) => {
         userId:null
     });
 }
+const loginInit = (state,action) => {
+    return updateObject(state,{
+        error:null,loading:false,isSignUpSucess:false
+    });
+}
 
 
 const Auth = (state = initialState , action) => {
@@ -95,6 +100,7 @@ const Auth = (state = initialState , action) => {
         case actionTypes.LOGOUT_START: return logoutStart(state,action);
         case actionTypes.LOGOUT: return logout(state,action);
         case actionTypes.LOGOUT_FAIL: return logoutFail(state,action);
+        case actionTypes.LOGIN_INIT:return loginInit(state,action);
 
 
 

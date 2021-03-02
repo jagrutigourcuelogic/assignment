@@ -4,6 +4,7 @@ import { todoCreate } from '../../../store/actions/index';
 import TodoCreateComp from '../../../components/TodoCreate/TodoCreate';
 import FormHoc from '../../../hoc/Form';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import { checkValidity } from '../../../shared/utility';
 import { Redirect } from 'react-router';
 
 
@@ -105,7 +106,7 @@ class TodoCreate extends Component {
         };
     
         updatedFormElement.value = event.target.value;
-       // updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
 
@@ -139,7 +140,9 @@ class TodoCreate extends Component {
             {authRedirect}
             <TodoCreateComp  change={this.inputChangeHandler} 
             backbtn={this.backHandler} 
-            readstatus={readstatus}  />
+            readstatus={readstatus} 
+            btnVisibility={!this.state.formIsValid}
+             />
                 {spinner}
             
            </FormHoc>
