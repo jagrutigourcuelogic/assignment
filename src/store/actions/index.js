@@ -2,13 +2,16 @@ export {
     registerUser,
     setAuthRedirectPath,
     loginUser,
-    authCheckState
+    authCheckState,
+    logout
 } from './auth';
 
 export {
     todoList,
     todoCreate,
     DataOperation,
-    todoSingleRecord
+    todoSingleRecord,
+    UpdateTodo,
+    todoDelete
 }
 from './todo';

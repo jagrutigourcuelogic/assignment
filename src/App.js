@@ -6,6 +6,7 @@ import Home from './containers/Home';
 import TodoList from './containers/Todo/TodoList/TodoList';
 import TodoCreate from './containers/Todo/TodoCreate/TodoCreate';
 import TodoOperation from './containers/Todo/TodoOperation/TodoOperation';
+import Logout from './containers/Auth/Logout/Logout';
 import Layout from './hoc/layout';
 import { connect } from 'react-redux';
 import { authCheckState } from './store/actions/index';
@@ -39,6 +40,7 @@ class App extends Component{
       <Route path="/todos/create" component={TodoCreate} />
       <Route path="/todos/:id" component={TodoOperation} />
       <Route path="/todos" component={TodoList} />
+      <Route  path="/logout" component={Logout} />
       <Route path="/" exact component={Home}/>
       <Redirect to={this.props.rediectpath} />
       

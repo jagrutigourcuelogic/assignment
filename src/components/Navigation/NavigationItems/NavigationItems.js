@@ -13,9 +13,14 @@ const navigationItems = (props) => {
         // }
 
       return(
-       <ul className={classes.NavigationItems}>
-       <NavigationItem link="/logout">Logout</NavigationItem> 
-       </ul>
+       
+          <ul className={classes.NavigationItems}>
+          <NavigationItem link="/todos" >Todos</NavigationItem>
+          <NavigationItem link="/todos/create">Create Todo</NavigationItem> 
+          <NavigationItem link="/logout">Logout</NavigationItem> 
+
+          </ul>
+      
       );
      }
  export default navigationItems;

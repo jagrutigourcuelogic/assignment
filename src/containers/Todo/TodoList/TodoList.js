@@ -1,15 +1,22 @@
 import React , { Component } from 'react';
 import Todo from '../../../components/TodoList/TodoList';
 import { connect  } from 'react-redux';
-import { todoList , DataOperation } from '../../../store/actions/index';
+import { Redirect } from 'react-router-dom';
+import { todoList , DataOperation ,todoDelete } from '../../../store/actions/index';
 import { Header, Table, Button } from 'semantic-ui-react';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 
 
 class TodoList extends Component {
+    
+
+    state = {
+        showpopup:false,
+        delete:false
+    };
      
     componentDidMount(){
-        console.log(this.props.userId); 
+       
         this.props.onInitTodoList(this.props.userId);
     }
 
@@ -18,10 +25,27 @@ class TodoList extends Component {
         this.props.onTodoOperation(operation);
         this.props.history.push(this.props.match.path +'/'+ id);
     }
+
+    todoDeleteHandler = (id,key) => {
+            console.log('delete clicked');
+            if (window.confirm("Are you sure, You want to delete!")) {
+               this.props.onTodoDelete(id,key);
+              } else {
+                console.log(false);
+              }
+        }
+       
+      
+    
+   
    
     render(){
-          //  console.log(this.props.list);
-            
+
+            let redirect = null;
+            if(this.props.isDelete){
+                redirect = <Redirect path={this.props.redirectpath} />
+            }
+           
       
             let todos = (!this.props.list) ? <p>No Todo List found</p> :null ;
             if(this.props.list && this.props.list.length > 0){
@@ -35,8 +59,8 @@ class TodoList extends Component {
                             {single.id}
                         </Header>
                         </Table.Cell>
-                        <Table.Cell singleLine>{single.title}</Table.Cell>
-                        <Table.Cell>
+                        <Table.Cell style={{overflow:'auto'}}>{single.title}</Table.Cell>
+                        <Table.Cell style={{overflow:'auto'}}>
                         {single.content}
                         </Table.Cell>
                         <Table.Cell>
@@ -49,6 +73,7 @@ class TodoList extends Component {
                         <Table.Cell>
                         <Button primary onClick={()=>this.todoDetailsHandler(single.id,'view')}>Details</Button>
                         <Button primary onClick={()=>this.todoDetailsHandler(single.id,'edit')}>Edit</Button>
+                        <Button color='red'onClick={() => this.todoDeleteHandler(single.id,single.key)} >Delete</Button>
                         </Table.Cell>
                     </Table.Row>
 
@@ -61,6 +86,7 @@ class TodoList extends Component {
             
         return(
          <Todo>
+         {redirect}
          {(this.props.loading) ? <Spinner /> : todos}
             
          </Todo>
@@ -74,14 +100,17 @@ const mapStateToProps = state => {
          error:state.todo.error,
          list:state.todo.list,
          loading:state.todo.loading,
-         userId:state.auth.userId
+         userId:state.auth.userId,
+         isDelete:state.todo.isDelete,
+         redirectpath:state.todo.redirectpath
      }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
          onInitTodoList : (userid) => dispatch(todoList(userid)),
-         onTodoOperation: (operation) => dispatch(DataOperation(operation))
+         onTodoOperation: (operation) => dispatch(DataOperation(operation)),
+         onTodoDelete:(id,key) => dispatch(todoDelete(id,key))
 
     }
 }

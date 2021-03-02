@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import { connect  } from 'react-redux';
-import { todoSingleRecord } from '../../../store/actions/index';
+import { todoSingleRecord , UpdateTodo } from '../../../store/actions/index';
 import TodoCreateComp from '../../../components/TodoCreate/TodoCreate';
 import FormHoc from '../../../hoc/Form';
 import Spinner from '../../../components/UI/Spinner/Spinner';
@@ -87,7 +87,7 @@ class TodoOperation extends Component {
             updatedOrderForm[key].value = this.props.record[key];
         }
         this.setState({createForm: updatedOrderForm});
-        console.log(this.state.createForm);
+        //console.log(this.state.createForm);
     
     
     }
@@ -106,16 +106,16 @@ class TodoOperation extends Component {
         formData[formElementIdentifier] = this.state.createForm[formElementIdentifier].value;
     }
 
-    const todo = {
-        uid:this.props.userId,
-        id:parseInt(Math.random()*1000),
-        ...formData
-    }
-    console.log(todo);
-    this.props.onTodoCreate(todo);
+    const todo ={
+        ...formData,
+        key:this.props.record.key
+        
+    };
+   
+    this.props.onTodoUpdate(todo);
    
     }
-
+  
     inputChangeHandler = (event,inputIdentifier) =>{
       // console.log(event.target.value);
         const updatedOrderForm = {
@@ -162,14 +162,21 @@ class TodoOperation extends Component {
                     opt = <Redirect to="/todos" />
                 }
 
+                let redirect = null;
+                if(this.props.isUpdate)
+                {
+                    redirect = <Redirect to={this.props.redirectpath} />
+                }
+
         return(
             
             <FormHoc submit={this.submitLoginhandler}>
             {opt}
+            {redirect}
             <TodoCreateComp  change={this.inputChangeHandler} 
             backbtn={this.backHandler} 
             readstatus={opt} 
-            value={this.props.record}/>
+            value={this.state.createForm}/>
                 {spinner}
             
            </FormHoc>
@@ -187,7 +194,8 @@ const mapStateToProps = state => {
          loading:state.todo.loading,
          redirectpath:state.todo.redirectpath,
          operation_type:state.todo.operation_type,
-         record:state.todo.single_record
+         record:state.todo.single_record,
+         isUpdate:state.todo.isUpdate
          
         }
      }
@@ -195,7 +203,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-         onInitOperation : (id) => dispatch(todoSingleRecord(id))
+         onInitOperation : (id) => dispatch(todoSingleRecord(id)),
+         onTodoUpdate : (todoinfo) => dispatch(UpdateTodo(todoinfo))
     }
 }
 

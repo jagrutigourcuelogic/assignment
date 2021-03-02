@@ -14,12 +14,12 @@ const TodoCreate = (props) => {
   ]
  const optele = options.map(option => (
     <option key={option.key} value={option.value} 
-    selected={(props.value && props.value.status == option.value) ? true : false}>
+    selected={(props.value && props.value.status.value == option.value) ? true : false}>
         {option.text} 
     </option>
  ));
 
-
+// console.log(props.value);
      
     return(<div>
     <Form.Field>
@@ -27,6 +27,8 @@ const TodoCreate = (props) => {
     <input type='text' placeholder='Todo Title'  
       onChange={(event)=>props.change(event,'title')} 
        readOnly={props.readstatus}
+       value={props.value && props.value.title.value}
+       
        />
   </Form.Field>
   <Form.Field>
@@ -34,7 +36,7 @@ const TodoCreate = (props) => {
   <Form.TextArea  placeholder='Todo Content' 
     onChange={(event)=>props.change(event,'content')} 
     readOnly={props.readstatus}
-    value={props.value ? props.value.content : ''}/>
+    value={props.value && props.value.content.value}/>
   </Form.Field>
   <Form.Field>
   <label>Date</label>
@@ -42,7 +44,7 @@ const TodoCreate = (props) => {
    placeholder='Todo Date'  
    onChange={(event)=>props.change(event,'date')} 
    disabled={props.readstatus}
-   value={props.value ? props.value.date : ''}/>
+   value={props.value && props.value.date.value} />
   </Form.Field>
   <Form.Field>
   <label>Status</label>

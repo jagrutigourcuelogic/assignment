@@ -96,11 +96,12 @@ class Register extends Component {
         for (let formElementIdentifier in this.state.registerForm) {
             formData[formElementIdentifier] = this.state.registerForm[formElementIdentifier].value;
         }
-        const {firstName,lastName,email,password} = formData;
+        const {firstName,lastName,email,password,confirmPassword} = formData;
         const user ={
             firstName,
             lastName,
-            email,password
+            email,password,
+            confirmPassword
         };
         this.props.onRegister(user);
         
@@ -136,16 +137,7 @@ class Register extends Component {
     };
 
     render(){
-        // if(this.props.signupSuccess)
-        // {
-        //     console.log('sinupsuccess');
-        //     this.props.onSetAuthRedirectPath('/signin');
-          
-        // }else{
-        //     console.log('redirectDefault');
-        //     this.props.onSetAuthRedirectPath('/');
-        // }
-        //console.log(process.env);
+        console.log(this.props.error);
         const formElementsArray = [];
         for (let key in this.state.registerForm) {
             
@@ -175,12 +167,16 @@ class Register extends Component {
                     
                 ))
         );
-        console.log(form);
+   
 
         let spinner = ( this.props.loading) ? <Spinner /> : null;
+        if(this.props.error){
+            spinner = null;
+        }
+        let error = this.props.error ? <p style={{color:'red'}}>{this.props.error}</p> : null;
             
                 let authRedirectPath = null;
-                if(this.props.signupSuccess)
+                if(this.props.signupSuccess && !error)
                 {
                     authRedirectPath = <Redirect to={this.props.redirectPath} />
                 
@@ -190,8 +186,10 @@ class Register extends Component {
     
         return(
             <div>
-            {authRedirectPath}
+           
                 <FormHoc submit={this.submitRegisterhandler}>
+                {error}
+                {authRedirectPath}
                         {form}
                         <Button  primary type='submit' disabled={!this.state.formIsValid}>Register</Button>
                         <Button primary onClick={this.backToLoginHandler}>Back</Button>
@@ -206,7 +204,7 @@ class Register extends Component {
 const mapStateToProps = state => {
     return {
         loading:state.auth.loading,
-        error:state.auth.error,
+        error:state.auth.error, 
         redirectPath:state.auth.authRedirectPath,
         signupSuccess:state.auth.isSignUpSucess,
         loginSuccess:state.auth.isLoginSuccess

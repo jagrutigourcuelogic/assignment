@@ -90,7 +90,7 @@ class TodoCreate extends Component {
         id:parseInt(Math.random()*1000),
         ...formData
     }
-    console.log(todo);
+   
     this.props.onTodoCreate(todo);
    
     }

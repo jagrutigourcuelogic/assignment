@@ -9,24 +9,31 @@ const db = firebase.firestore(firebaseApp);
 
 
 export const registerUser = (userinfo) => {
-   const {email,password,firstName,lastName} = userinfo;
+   const {email,password,firstName,lastName,confirmPassword} = userinfo;
+  
     return async dispatch => {
+      if( password !== confirmPassword){
+         
+        const errMsg = "Password and Confirm Password should be same.";
+        dispatch(userSignupFail(errMsg));
+      }
+   
       dispatch(userSignupStart());
       try {
         let userCredential = await  firebaseApp.auth().createUserWithEmailAndPassword(email,password);
         let user = userCredential.user;
-        console.log(user);
+       
         let userSignup =  db.collection("users").add({
           uid:user.uid,
          firstName,
          lastName
         
       });
-      console.log(userSignup);
+      
       dispatch(userSignupSuccess());
       
       } catch(err) {
-        console.log(err.message);
+        //console.log(err.message);
         dispatch(userSignupFail(err.message));
          // TypeError: failed to fetch
       }
@@ -112,21 +119,47 @@ export const loginUser = (userinfo) => {
 };
 
 export const logout =() => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('userId');
+  return dispatch => {
+    dispatch(logoutStart());
+    firebaseApp.auth().signOut().then(() => {
+      // Sign-out successful.
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      dispatch(logoutSuccess());
+    }).catch((error) => {
+      // An error happened.
+      dispatch(logoutFail(error.message));
+    });
 
-  return{
-      type:actionTypes.LOGOUT,
-      path:'/signin'
+  }
+}  
+
+ const logoutStart = () => {
+   return {
+     type:actionTypes.LOGOUT_START
+   }
+ }
+ const logoutFail = () => {
+  return {
+    type:actionTypes.LOGOUT_FAIL
   }
 }
+
+
+
+ const logoutSuccess = () => {
+  return{
+    type:actionTypes.LOGOUT,
+    path:'/'
+}
+ }
 
 export const authCheckState = () => {
   return dispatch => {
       const token = localStorage.getItem('token');
       if(!token)
       {
-          dispatch(logout());
+          dispatch(logoutSuccess());
       }else{
          
               const userId = localStorage.getItem('userId');
@@ -136,5 +169,9 @@ export const authCheckState = () => {
       }
   }
 }
+
+
+
+
 
 

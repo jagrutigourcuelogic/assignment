@@ -58,6 +58,31 @@ const logout = (state ,action) => {
     });
 }
 
+const logoutStart = (state ,action) => {
+    return updateObject(state , {
+        error:null,
+        authRedirectPath:action.path,
+        loading:true,
+        isSignUpSucess:false,
+        isLoginSuccess:false,
+        token:null,
+        userId:null
+    });
+}
+
+const logoutFail = (state ,action) => {
+    return updateObject(state , {
+        error:action.error,
+        authRedirectPath:action.path,
+        loading:true,
+        isSignUpSucess:false,
+        isLoginSuccess:false,
+        token:null,
+        userId:null
+    });
+}
+
+
 const Auth = (state = initialState , action) => {
     switch (action.type) {
         case actionTypes.USER_SIGNUP_START: return signupStart(state,action);
@@ -67,7 +92,10 @@ const Auth = (state = initialState , action) => {
         case actionTypes.USER_LOGIN_START: return loginStart(state,action);
         case actionTypes.USER_LOGIN_SUCCESS: return loginSuccess(state,action);
         case actionTypes.USER_LOGIN_FAIL: return loginFail(state,action);
+        case actionTypes.LOGOUT_START: return logoutStart(state,action);
         case actionTypes.LOGOUT: return logout(state,action);
+        case actionTypes.LOGOUT_FAIL: return logoutFail(state,action);
+
 
 
         default: return state;
